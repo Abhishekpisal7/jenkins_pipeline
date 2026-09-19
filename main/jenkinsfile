@@ -8,7 +8,7 @@ pipeline {
     stages{
         stage('checkout'){
             checkout scm
-        },
+        }
         stage("Trivey FS Scan"){
             steps{
                 sh 'trivy fs --exit-code 1 --severity HIGH,CRITICAL .'
