@@ -7,7 +7,9 @@ pipeline {
 
     stages{
         stage("checkout"){
-            checkout scm
+            steps{
+                checkout scm
+            }
         }
         stage("Trivey FS Scan"){
             steps{
