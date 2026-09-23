@@ -9,9 +9,16 @@ pipeline {
                 checkout scm
             }
         }
+
         stage("Trivey FS Scan"){
             steps{
                 sh 'trivy fs --exit-code 1 --severity HIGH,CRITICAL .'
+            }
+        }
+
+        stage("Build and Sonar"){
+            withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                
             }
         }
     }
