@@ -32,7 +32,7 @@ pipeline {
                 -Dsonar.projectKey=cwvj-devsecops-demo \
                 -Dsonar.host.url="http://${SONAR_IP}:9000" \
                 -Dsonar.token="${SONAR_TOKEN}" \
-                -Dsonar.qualityGate.wait=true'
+                -Dsonar.qualitygate.wait=true'
                 }
             }
         }
