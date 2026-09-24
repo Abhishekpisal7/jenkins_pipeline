@@ -28,7 +28,7 @@ pipeline {
             steps{
                 withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                 sh 'mvn  -f java-maven/pom.xml clean verify \
-                org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                'org.sonarsource.scanner.maven:sonar-maven-plugin:54.159.94.102':sonar \
                 -Dsonar.projectKey=cwvj-devsecops-demo \
                 -Dsonar.host.url="http://${SONAR_IP}:9000" \
                 -Dsonar.token="${SONAR_TOKEN}" \
