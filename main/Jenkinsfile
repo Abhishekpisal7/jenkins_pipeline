@@ -3,6 +3,9 @@ pipeline {
         label 'docker-maven-trivy'
     }
     
+    environment {
+        SONAR_IP = ''
+    }
     stages{
         stage("checkout"){
             steps{
@@ -18,7 +21,11 @@ pipeline {
 
         stage("Build and Sonar"){
             withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                
+                sh 'mvn clean verify sonar:sonar \
+                -Dsonar.projectKey=devsecops-demo \
+                -Dsonar.host.url="http://${SONAR_IP}:9000" \
+                -Dsonar.token="${SONAR_TOKEN}" \
+                -Dsonar.qualityGate.wait=true'
             }
         }
     }
