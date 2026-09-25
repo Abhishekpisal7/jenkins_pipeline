@@ -49,6 +49,7 @@ pipeline {
         stage("Image Build") {
             steps {
                 sh 'docker build --platform linux/amd64 -t "$IMAGE_REPO:$BUILD_NUMBER" -t "$IMAGE_REPO:latest" .'
+            }
         }
     }
 }
