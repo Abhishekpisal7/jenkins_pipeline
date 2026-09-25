@@ -51,5 +51,11 @@ pipeline {
                 sh 'docker build --platform linux/amd64 -t "$IMAGE_REPO:$BUILD_NUMBER" -t "$IMAGE_REPO:latest" .'
             }
         }
+
+        stage("Trivy Image Scan") {
+            steps {
+                sh 'trivy image --exit-code --severity HIGH,CRITICAL "$IMAGE_REPO:$BUILD_NUMBER"'
+            }
+        }
     }
 }
