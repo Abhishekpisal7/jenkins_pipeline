@@ -10,6 +10,7 @@ pipeline {
     environment {
         SONAR_IP = '172.31.19.204'
         ECR_REGISTRY = '565122145290.dkr.ecr.us-east-1.amazonaws.com'
+        IMAGE_REPO = "${ECR_REGISTRY}/devsecops-demo"
     }
     
     stages{
@@ -43,6 +44,11 @@ pipeline {
             steps {
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}'
             }
+        }
+
+        stage("Image Build") {
+            steps {
+                sh 'docker build --platform linux/amd64 -t "$IMAGE_REPO:$BUILD_NUMBER" -t "$IMAGE_REPO:latest" .'
         }
     }
 }
