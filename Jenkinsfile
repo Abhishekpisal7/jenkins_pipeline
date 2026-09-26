@@ -57,5 +57,12 @@ pipeline {
                 sh 'trivy image --exit-code=1 --severity HIGH,CRITICAL "$IMAGE_REPO:$BUILD_NUMBER"'
             }
         }
+
+        stage("ECR Image Push") {
+            steps {
+                sh 'docker push $IMAGE_REPO:$BUILD_NUMBER"'
+                sh 'docker push $IMAGE_REPO:latest'
+            }
+        }
     }
 }
