@@ -60,8 +60,8 @@ pipeline {
 
         stage("ECR Image Push") {
             steps {
-                sh 'docker push $IMAGE_REPO:$BUILD_NUMBER"'
-                sh 'docker push $IMAGE_REPO:latest'
+                sh 'docker push "$IMAGE_REPO:$BUILD_NUMBER"'
+                sh 'docker push "$IMAGE_REPO:latest"'
             }
         }
     }
