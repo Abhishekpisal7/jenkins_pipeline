@@ -64,6 +64,12 @@ pipeline {
                 sh 'docker push "$IMAGE_REPO:latest"'
             }
         }
+
+        stage("Update Image") {
+            steps {
+                sh 'sed -i "s|image:.*|image: $IMAGE_REPO:$BUILD_NUMBER|g" deployment-svc.yaml'
+            }
+        }
     }
 
     post {

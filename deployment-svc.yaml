@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: devsecops-demo
+  namespace: devsecops-demo
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devsecops-demo
+  template:
+    metadata:
+      name: devsecops-demo
+      labels:
+        app: devsecops-demo
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: devsecops-demo
+      containers:
+      - name: devsecops-demo
+        image: "565122145290.dkr.ecr.us-east-1.amazonaws.com:latest"
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "100Mi"
+          limits:
+            cpu: "500m"
+            memory: "200Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devsecops-demo-service
+  namesapce: devsecops-demo
+spec: 
+  selector:
+    app: devsecops-demo
+  ports:
+  - protocol: 'TCP'
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
