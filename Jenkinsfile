@@ -85,7 +85,8 @@ pipeline {
 
                     kubectl rollout status -n devsecops-demo deployment/devsecops-demo --timeout=60s || {
                     kubectl rollout undo -n devsecops-demo deployment/devsecops-demo || true
-                    exit 1 }
+                    exit 1 
+                    }
                 '''
             }
         }
