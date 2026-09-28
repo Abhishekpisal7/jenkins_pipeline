@@ -83,8 +83,8 @@ pipeline {
                     kubectl create namespace devsecops-demo --dry-run=client -o yaml | kubectl apply -f -
                     kubectl apply -f deployment-svc.yaml
 
-                    kubectl rollout status -n cwvj-devsecops deployment/cwvj-devsecops-demo --timeout=60s || {
-                    kubectl rollout undo -n cwvj-devsecops deployment/cwvj-devsecops-demo || true
+                    kubectl rollout status -n devsecops-demo deployment/devsecops-demo --timeout=60s || {
+                    kubectl rollout undo -n devsecops-demo deployment/devsecops-demo || true
                     exit 1 }
                 '''
             }
