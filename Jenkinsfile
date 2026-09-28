@@ -70,6 +70,25 @@ pipeline {
                 sh 'sed -i "s|image:.*|image: $IMAGE_REPO:$BUILD_NUMBER|g" deployment-svc.yaml'
             }
         }
+
+        stage("Deploy on EKS") {
+            steps {
+                sh '''
+                    #!/bin/bash -l
+                    aws eks update-kubeconfig \
+                    --region ap-south-1 \
+                    --name devsecops-demo \
+                    --kubeconfig /home/jenkins/.kube/config
+
+                    kubectl create ns devsecops-demo
+                    kubectl apply -f deployment-svc.yaml
+
+                    kubectl rollout status -n cwvj-devsecops deployment/cwvj-devsecops-demo --timeout=60s || {
+                    kubectl rollout undo -n cwvj-devsecops deployment/cwvj-devsecops-demo || true
+                    exit 1 }
+                '''
+            }
+        }
     }
 
     post {
