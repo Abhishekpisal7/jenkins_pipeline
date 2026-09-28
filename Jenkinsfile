@@ -80,7 +80,7 @@ pipeline {
                     --name devsecops-demo \
                     --kubeconfig /home/jenkins/.kube/config
 
-                    kubectl create ns devsecops-demo
+                    kubectl create namespace devsecops-demo --dry-run=client -o yaml | kubectl apply -f -
                     kubectl apply -f deployment-svc.yaml
 
                     kubectl rollout status -n cwvj-devsecops deployment/cwvj-devsecops-demo --timeout=60s || {
