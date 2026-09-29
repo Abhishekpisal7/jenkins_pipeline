@@ -1,0 +1,50 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: devsecops-demo
+  region: us-east-1
+  version: "1.36"
+  tags:
+    owner: AbhishekPisal
+    environment: devops
+    project: devsecops-demo
+
+vpc:
+  clusterEndpoints:
+    publicAccess: true
+    
+availabilityZones:
+  - us-east-1a
+  - us-east-1b
+
+iam:
+  withOIDC: true
+
+managedNodeGroups:
+  - name: devsecops-demo-ng-public
+    instanceType: t3.small
+    minSize: 2
+    maxSize: 2
+    desiredCapacity: 2
+    volumeSize: 20
+    privateNetworking: false
+
+    ssh:
+      allow: true
+      publicKeyName: mykey  # your EC2 key pair name
+
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        ebs: true
+        albIngress: true
+        externalDNS: true
+        certManager: false
+        cloudWatch: false
+    labels:
+      owner: AbhishekPisal
+      app: devsecops-demo
+    tags:
+      node-type: public-worker
+      managed-by: eksctl
